@@ -1,5 +1,20 @@
-# To Do List App
+# To-Do List App
 
 ## Developing
-- Start the front end: `npm run dev`
-- Start the back end server: TODO
+
+### Install Front End
+Prerequisites: Node
+
+1. `cd frontend`
+2. `npm install`
+
+### Install Back End
+Prerequisites: Python
+
+### Start Front End
+1. `cd frontend`
+2. `npm run dev`
+
+### Start Back End
+1. `cd backend`
+2. `source start.sh`
