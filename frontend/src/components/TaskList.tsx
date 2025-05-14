@@ -12,7 +12,6 @@ const TaskList = ({ tasks }: TaskListProps) => {
           tasks.map((task: Task) => {
             return (
               <li key={task.id}>
-                <span>{task.title}</span><br />
                 <span>{task.description}</span><br />
                 {task.completedAt && <span>Completed {task.completedAt.toLocaleString()}</span>}
               </li>

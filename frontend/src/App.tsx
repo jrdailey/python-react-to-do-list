@@ -4,12 +4,10 @@ import TaskList from './components/TaskList'
 const tasks: Task[] = [
   {
     id: 0,
-    title: 'Task 1',
     description: 'Do the thing',
   },
   {
     id: 1,
-    title: 'Task 2',
     description: 'Do the other thing',
     completedAt: new Date(),
   },
