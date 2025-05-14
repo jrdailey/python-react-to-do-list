@@ -18,9 +18,11 @@ const tasks: Task[] = [
 function App() {
   return (
     <>
-      <h1>Task List</h1>
-      <hr />
-      <TaskList tasks={tasks} />
+      <div className="bg-neutral-100">
+        <h1 className="text-2xl text-center">Task List</h1>
+        <hr />
+        <TaskList tasks={tasks} />
+      </div>
     </>
   )
 }
