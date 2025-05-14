@@ -1,9 +1,15 @@
-const TaskList = ({ tasks }) => {
+import type { Task } from '../types'
+
+interface TaskListProps {
+  tasks: Task[]
+}
+
+const TaskList = ({ tasks }: TaskListProps) => {
   return (
     <>
       <ul>
         {
-          tasks.map((task) => {
+          tasks.map((task: Task) => {
             return (
               <li key={task.id}>
                 <span>{task.title}</span><br />
