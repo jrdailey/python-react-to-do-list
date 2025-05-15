@@ -22,7 +22,7 @@ const TaskDescription = ({
           onChange={onUpdate}
         /> :
         <span
-          className="w-full h-full p-0.5 break-normal lg:h-auto">
+          className="w-full h-full p-0.5 break-normal font-medium lg:h-auto">
           {description}
         </span>
       }

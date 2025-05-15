@@ -20,7 +20,7 @@ const TaskList = ({
   return (
     <>
       <div className="flex justify-center">
-        <div className="flex-col w-2/3">
+        <div className="flex-col w-2/3 min-w-[250px]">
           <div className="flex justify-end mb-2">
             <StandardButton
               color="blue"

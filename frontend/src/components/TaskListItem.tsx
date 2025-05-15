@@ -40,14 +40,14 @@ const TaskListItem = ({
 
   return (
     <li className="flex flex-wrap justify-evenly outline rounded-sm shadow-lg p-2 mb-2 md:justify-between lg:flex-nowrap">
-      <span className="inline-flex flex-wrap content-center w-1/2">
+      <span className="inline-flex flex-wrap content-center w-full md:w-1/2">
         <TaskDescription
           description={task.description}
           isEditable={isEditable}
           onUpdate={handleTaskDescriptionUpdate}
         />
       </span>
-      <span className="inline-flex justify-end flex-wrap content-center text-right align-top px-2 w-1/2 lg:align-center lg:text-left lg:w-auto ">
+      <span className="inline-flex justify-end flex-wrap content-center text-left align-top py-2 pr-2 w-full md:w-1/2 lg:align-center lg:w-auto ">
         <TaskCompletionStatus
           completedAt={task.completedAt}
           isEditable={isEditable}

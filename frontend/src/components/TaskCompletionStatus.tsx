@@ -16,7 +16,7 @@ const TaskCompletionStatus = ({
           <input type="checkbox" onChange={onChange} checked={!!completedAt} />
           &nbsp;Complete
         </label> :
-        completedAt && <span className="h-full lg:h-auto">Completed at {completedAt.toLocaleString()}</span>
+        completedAt && <span className="h-full font-light lg:h-auto">Completed at {completedAt.toLocaleString()}</span>
       }
     </>
   )
