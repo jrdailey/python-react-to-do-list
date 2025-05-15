@@ -5,16 +5,16 @@ import StandardButton from './StandardButton'
 
 interface TaskListItemProps {
   task: Task
-  onTaskUpdate: (task: Task) => void,
-  onTaskSave: (task: Task) => void,
   onTaskDelete: (task: Task) => void,
+  onTaskSave: (task: Task) => void,
+  onTaskUpdate: (task: Task) => void,
 }
 
 const TaskListItem = ({
   task,
-  onTaskUpdate,
-  onTaskSave,
   onTaskDelete,
+  onTaskSave,
+  onTaskUpdate,
 }: TaskListItemProps) => {
   const [isEditable, setIsEditable] = useState(false)
   const handleTaskEdit = () => setIsEditable(true)
@@ -37,17 +37,17 @@ const TaskListItem = ({
   const handleTaskDelete = () => onTaskDelete(task)
 
   return (
-    <li className="flex flex-wrap justify-between outline rounded-sm shadow-lg p-2 mb-2 lg:flex-nowrap">
+    <li className="flex flex-wrap justify-evenly outline rounded-sm shadow-lg p-2 mb-2 md:justify-between lg:flex-nowrap">
       <span className="inline-flex flex-wrap content-center w-1/2">
         {isEditable ?
           <input className="w-full outline rounded-sm p-1" type="text" value={task.description} onChange={handleTaskDescriptionUpdate} /> :
-          <span className="w-full p-0.5">{task.description}</span>
+          <span className="w-full h-full p-0.5 break-normal lg:h-auto">{task.description}</span>
         }
       </span>
-      <span className="inline-flex justify-end flex-wrap content-center px-2 w-1/2 lg:w-auto ">
+      <span className="inline-flex justify-end flex-wrap content-center text-right align-top px-2 w-1/2 lg:align-center lg:text-left lg:w-auto ">
         {isEditable ?
           <label><input type="checkbox" onChange={handleTaskCompletion} checked={!!task.completedAt} /> Complete</label> :
-          task.completedAt && <span>Completed at {task.completedAt.toLocaleString()}</span>
+          task.completedAt && <span className="h-full lg:h-auto">Completed at {task.completedAt.toLocaleString()}</span>
         }
       </span>
       <span className="inline-flex justify-end gap-2 w-full min-w-[160px] mt-1 lg:justify-between lg:w-[160px] lg:mt-0">
