@@ -51,11 +51,18 @@ const TaskListItem = ({
         }
       </span>
       <span className="inline-flex justify-end gap-2 w-full min-w-[160px] mt-1 lg:justify-between lg:w-[160px] lg:mt-0">
-        <StandardButton
-          text={isEditable ? 'Save' : 'Edit'}
-          color={isEditable ? 'green' : 'gray'}
-          onClick={() => isEditable ? handleTaskSave() : handleTaskEdit()}
-        />
+        {isEditable ?
+          <StandardButton
+            text="Save"
+            color="green"
+            onClick={handleTaskSave}
+          /> :
+          <StandardButton
+            text="Edit"
+            color="gray"
+            onClick={handleTaskEdit}
+          />
+        }
         <StandardButton
           text='Delete'
           color='red'
