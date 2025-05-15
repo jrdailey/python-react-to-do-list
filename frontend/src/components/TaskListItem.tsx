@@ -7,12 +7,14 @@ interface TaskListItemProps {
   task: Task
   onTaskUpdate: (task: Task) => void,
   onTaskSave: (task: Task) => void,
+  onTaskDelete: (task: Task) => void,
 }
 
 const TaskListItem = ({
   task,
   onTaskUpdate,
   onTaskSave,
+  onTaskDelete,
 }: TaskListItemProps) => {
   const [isEditable, setIsEditable] = useState(false)
   const handleTaskEdit = () => setIsEditable(true)
@@ -32,6 +34,7 @@ const TaskListItem = ({
       completedAt: task.completedAt ? undefined : new Date(),
     })
   }
+  const handleTaskDelete = () => onTaskDelete(task)
 
   return (
     <li className="flex justify-between outline rounded-sm shadow-lg p-2 mb-2">
@@ -45,11 +48,18 @@ const TaskListItem = ({
         <label><input type="checkbox" onChange={handleTaskCompletion} checked={!!task.completedAt} /> Complete</label> :
         task.completedAt && <span>Completed at {task.completedAt.toLocaleString()}</span>
       }
-      <StandardButton
-        text={isEditable ? 'Save' : 'Edit'}
-        color={isEditable ? 'green' : 'gray'}
-        onClick={() => isEditable ? handleTaskSave() : handleTaskEdit()}
-      />
+      <span className="inline-flex justify-around w-1/5">
+        <StandardButton
+          text={isEditable ? 'Save' : 'Edit'}
+          color={isEditable ? 'green' : 'gray'}
+          onClick={() => isEditable ? handleTaskSave() : handleTaskEdit()}
+        />
+        <StandardButton
+          text='Delete'
+          color='red'
+          onClick={handleTaskDelete}
+        />
+      </span>
     </li>
   )
 }

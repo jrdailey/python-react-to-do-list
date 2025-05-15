@@ -5,12 +5,14 @@ interface TaskListProps {
   tasks: Task[],
   onTaskUpdate: (task: Task) => void,
   onTaskSave: (task: Task) => void,
+  onTaskDelete: (task: Task) => void,
 }
 
 const TaskList = ({
   tasks,
   onTaskUpdate,
   onTaskSave,
+  onTaskDelete,
 }: TaskListProps) => {
   return (
     <>
@@ -22,6 +24,7 @@ const TaskList = ({
               task={task}
               onTaskUpdate={onTaskUpdate}
               onTaskSave={onTaskSave}
+              onTaskDelete={onTaskDelete}
             />,
           )
         }

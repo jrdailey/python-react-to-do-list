@@ -40,6 +40,9 @@ function App() {
     // ToDo: Make API call
     setTasks(sortTasks(tasks))
   }
+  const handleTaskDelete = (task: Task) => {
+    setTasks(tasks.filter(candidate => candidate.id !== task.id))
+  }
 
   return (
     <>
@@ -50,6 +53,7 @@ function App() {
           tasks={tasks}
           onTaskUpdate={handleTaskUpdate}
           onTaskSave={handleTaskSave}
+          onTaskDelete={handleTaskDelete}
         />
       </div>
     </>
