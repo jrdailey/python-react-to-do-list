@@ -37,18 +37,20 @@ const TaskListItem = ({
   const handleTaskDelete = () => onTaskDelete(task)
 
   return (
-    <li className="flex justify-between outline rounded-sm shadow-lg p-2 mb-2">
+    <li className="flex flex-wrap justify-between outline rounded-sm shadow-lg p-2 mb-2 lg:flex-nowrap">
       <span className="inline-flex flex-wrap content-center w-1/2">
         {isEditable ?
-          <input className="w-full outline p-0.5" type="text" value={task.description} onChange={handleTaskDescriptionUpdate} /> :
+          <input className="w-full outline rounded-sm p-1" type="text" value={task.description} onChange={handleTaskDescriptionUpdate} /> :
           <span className="w-full p-0.5">{task.description}</span>
         }
       </span>
-      {isEditable ?
-        <label><input type="checkbox" onChange={handleTaskCompletion} checked={!!task.completedAt} /> Complete</label> :
-        task.completedAt && <span>Completed at {task.completedAt.toLocaleString()}</span>
-      }
-      <span className="inline-flex justify-around w-1/5">
+      <span className="inline-flex justify-end flex-wrap content-center px-2 w-1/2 lg:w-auto ">
+        {isEditable ?
+          <label><input type="checkbox" onChange={handleTaskCompletion} checked={!!task.completedAt} /> Complete</label> :
+          task.completedAt && <span>Completed at {task.completedAt.toLocaleString()}</span>
+        }
+      </span>
+      <span className="inline-flex justify-end gap-2 w-full min-w-[160px] mt-1 lg:justify-between lg:w-[160px] lg:mt-0">
         <StandardButton
           text={isEditable ? 'Save' : 'Edit'}
           color={isEditable ? 'green' : 'gray'}

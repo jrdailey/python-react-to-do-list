@@ -46,7 +46,7 @@ function App() {
 
   return (
     <>
-      <h1 className="text-2xl text-center">Task List</h1>
+      <h1 className="text-4xl p-2">Tasks</h1>
       <hr className="mb-2" />
       <div className="flex justify-center">
         <TaskList
