@@ -27,6 +27,13 @@ function App() {
   }
   const [tasks, setTasks] = useState(sortTasks(initialTasks))
 
+  const handleTaskAdd = () => {
+    const newTask: Task = {
+      id: tasks.length,
+      description: '',
+    }
+    setTasks([newTask, ...tasks])
+  }
   const handleTaskUpdate = (updatedTask: Task) => {
     setTasks(tasks.map(task => {
       if (task.id === updatedTask.id) {
@@ -48,14 +55,13 @@ function App() {
     <>
       <h1 className="text-4xl p-2">Tasks</h1>
       <hr className="mb-2" />
-      <div className="flex justify-center">
-        <TaskList
-          tasks={tasks}
-          onTaskUpdate={handleTaskUpdate}
-          onTaskSave={handleTaskSave}
-          onTaskDelete={handleTaskDelete}
-        />
-      </div>
+      <TaskList
+        tasks={tasks}
+        onTaskAdd={handleTaskAdd}
+        onTaskUpdate={handleTaskUpdate}
+        onTaskSave={handleTaskSave}
+        onTaskDelete={handleTaskDelete}
+      />
     </>
   )
 }
