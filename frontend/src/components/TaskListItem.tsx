@@ -40,13 +40,24 @@ const TaskListItem = ({
     <li className="flex flex-wrap justify-evenly outline rounded-sm shadow-lg p-2 mb-2 md:justify-between lg:flex-nowrap">
       <span className="inline-flex flex-wrap content-center w-1/2">
         {isEditable ?
-          <input className="w-full outline rounded-sm p-1" type="text" value={task.description} onChange={handleTaskDescriptionUpdate} /> :
-          <span className="w-full h-full p-0.5 break-normal lg:h-auto">{task.description}</span>
+          <input
+            className="w-full outline rounded-sm p-1"
+            type="text"
+            value={task.description}
+            onChange={handleTaskDescriptionUpdate}
+          /> :
+          <span
+            className="w-full h-full p-0.5 break-normal lg:h-auto">
+            {task.description}
+          </span>
         }
       </span>
       <span className="inline-flex justify-end flex-wrap content-center text-right align-top px-2 w-1/2 lg:align-center lg:text-left lg:w-auto ">
         {isEditable ?
-          <label><input type="checkbox" onChange={handleTaskCompletion} checked={!!task.completedAt} /> Complete</label> :
+          <label>
+            <input type="checkbox" onChange={handleTaskCompletion} checked={!!task.completedAt} />
+            &nbsp;Complete
+          </label> :
           task.completedAt && <span className="h-full lg:h-auto">Completed at {task.completedAt.toLocaleString()}</span>
         }
       </span>
