@@ -44,6 +44,7 @@ const TaskListItem = ({
             className="w-full outline rounded-sm p-1"
             type="text"
             value={task.description}
+            autoFocus={true}
             onChange={handleTaskDescriptionUpdate}
           /> :
           <span
