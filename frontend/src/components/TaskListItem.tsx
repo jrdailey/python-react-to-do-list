@@ -1,6 +1,7 @@
 import { Task } from '../types'
 import { useState } from 'react'
 import type { ChangeEvent } from 'react'
+import StandardButton from './StandardButton'
 
 interface TaskListItemProps {
   task: Task
@@ -33,18 +34,22 @@ const TaskListItem = ({
   }
 
   return (
-    <li className="flex justify-between outline rounded-sm p-2 mb-2">
-      <span className="w-1/2">
+    <li className="flex justify-between outline rounded-sm shadow-lg p-2 mb-2">
+      <span className="inline-flex flex-wrap content-center w-1/2">
         {isEditable ?
           <input className="w-full outline p-0.5" type="text" value={task.description} onChange={handleTaskDescriptionUpdate} /> :
-          <span>{task.description}</span>
+          <span className="w-full p-0.5">{task.description}</span>
         }
       </span>
       {isEditable ?
         <label><input type="checkbox" onChange={handleTaskCompletion} checked={!!task.completedAt} /> Complete</label> :
         task.completedAt && <span>Completed at {task.completedAt.toLocaleString()}</span>
       }
-      <button type="button" onClick={() => isEditable ? handleTaskSave() : handleTaskEdit()}>{isEditable ? 'Save' : 'Edit'}</button>
+      <StandardButton
+        text={isEditable ? 'Save' : 'Edit'}
+        color={isEditable ? 'green' : 'gray'}
+        onClick={() => isEditable ? handleTaskSave() : handleTaskEdit()}
+      />
     </li>
   )
 }
