@@ -39,6 +39,7 @@ const TaskListItem = ({
   return (
     <li className="flex flex-wrap justify-evenly outline rounded-sm shadow-lg p-2 mb-2 md:justify-between lg:flex-nowrap">
       <span className="inline-flex flex-wrap content-center w-1/2">
+        {/* Description */}
         {isEditable ?
           <input
             className="w-full outline rounded-sm p-1"
@@ -54,6 +55,7 @@ const TaskListItem = ({
         }
       </span>
       <span className="inline-flex justify-end flex-wrap content-center text-right align-top px-2 w-1/2 lg:align-center lg:text-left lg:w-auto ">
+        {/* Completion status */}
         {isEditable ?
           <label>
             <input type="checkbox" onChange={handleTaskCompletion} checked={!!task.completedAt} />
@@ -63,6 +65,7 @@ const TaskListItem = ({
         }
       </span>
       <span className="inline-flex justify-end gap-2 w-full min-w-[160px] mt-1 lg:justify-between lg:w-[160px] lg:mt-0">
+        {/* Save/Edit/Delete buttons */}
         {isEditable ?
           <StandardButton
             text="Save"
