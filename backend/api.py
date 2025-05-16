@@ -34,8 +34,7 @@ def create_task():
         'id': getNextTaskId()
     }
 
-    tasks = getStoredTasks()
-    tasks.append(new_task)
+    tasks = [new_task] + getStoredTasks()
 
     setTasks(tasks)
 
