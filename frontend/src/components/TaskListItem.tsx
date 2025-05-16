@@ -7,8 +7,9 @@ import StandardButton from './StandardButton'
 interface TaskListItemProps {
   task: Task
   isEditable: boolean,
+  onTaskCompletion: (task: Task) => void,
   onTaskDelete: (task: Task) => void,
-  onTaskEdit: (task: Task, isEditable: boolean) => void,
+  onTaskEdit: (task: Task) => void,
   onTaskSave: (task: Task) => void,
   onTaskUpdate: (task: Task) => void,
 }
@@ -16,17 +17,17 @@ interface TaskListItemProps {
 const TaskListItem = ({
   task,
   isEditable,
+  onTaskCompletion,
   onTaskDelete,
   onTaskEdit,
   onTaskSave,
   onTaskUpdate,
 }: TaskListItemProps) => {
-  const toggleEditable = () => onTaskEdit(task, !isEditable)
+  const handleTaskEdit = () => onTaskEdit(task)
   const handleTaskSave = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     onTaskSave(task)
-    toggleEditable()
   }
   const handleTaskDescriptionUpdate = (event: ChangeEvent<HTMLInputElement>) => {
     onTaskUpdate({
@@ -34,19 +35,7 @@ const TaskListItem = ({
       description: event.target.value,
     })
   }
-  const toggleTaskCompletion = () => {
-    const updatedTask = {
-      ...task,
-      completedAt: task.completedAt ? undefined : new Date(),
-    }
-
-    if (isEditable) {
-      onTaskUpdate(updatedTask)
-    } else {
-      // Immediately save update when the task is not in an edit state
-      onTaskSave(updatedTask)
-    }
-  }
+  const handleTaskCompletion = () => onTaskCompletion(task)
   const handleTaskDelete = () => onTaskDelete(task)
 
   return (
@@ -66,29 +55,17 @@ const TaskListItem = ({
           <TaskCompletionStatus
             completedAt={task.completedAt}
             isEditable={isEditable}
-            onChange={toggleTaskCompletion}
+            onChange={handleTaskCompletion}
           />
         </span>
         <span className="inline-flex justify-end gap-2 w-full min-w-[160px] items-center mt-1 lg:justify-between lg:w-[160px] lg:mt-0">
           {isEditable &&
-            <StandardButton
-              type="submit"
-              text="Save"
-              color="green"
-            />
+            <StandardButton type="submit" text="Save" color="green" />
           }
           {!isEditable &&
-            <StandardButton
-              text="Edit"
-              color="gray"
-              onClick={toggleEditable}
-            />
+            <StandardButton text="Edit" color="gray" onClick={handleTaskEdit} />
           }
-          <StandardButton
-            text='Delete'
-            color='red'
-            onClick={handleTaskDelete}
-          />
+          <StandardButton text="Delete" color="red" onClick={handleTaskDelete} />
         </span>
       </form>
     </li>

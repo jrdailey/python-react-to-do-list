@@ -1,32 +1,28 @@
 import type { Task } from '../types'
 import TaskListItem from './TaskListItem'
 import StandardButton from './StandardButton'
-import { useState } from 'react'
 
 interface TaskListProps {
   tasks: Task[],
+  isTaskEditable: (task: Task) => boolean,
   onTaskAdd: () => void,
+  onTaskCompletion: (task: Task) => void,
   onTaskDelete: (task: Task) => void,
+  onTaskEdit: (task: Task) => void,
   onTaskSave: (task: Task) => void,
   onTaskUpdate: (task: Task) => void,
 }
 
 const TaskList = ({
   tasks,
+  isTaskEditable,
   onTaskAdd,
+  onTaskCompletion,
   onTaskDelete,
+  onTaskEdit,
   onTaskSave,
   onTaskUpdate,
 }: TaskListProps) => {
-  const [editableTasks, setEditableTasks] = useState<Record<number, boolean>>({})
-
-  const onTaskEdit = (task: Task, isEditable: boolean) => {
-    setEditableTasks({
-      ...editableTasks,
-      [task.id]: isEditable,
-    })
-  }
-
   return (
     <>
       <div className="flex justify-center">
@@ -44,7 +40,8 @@ const TaskList = ({
                 <TaskListItem
                   key={task.id}
                   task={task}
-                  isEditable={!!editableTasks[task.id]}
+                  isEditable={isTaskEditable(task)}
+                  onTaskCompletion={onTaskCompletion}
                   onTaskDelete={onTaskDelete}
                   onTaskEdit={onTaskEdit}
                   onTaskSave={onTaskSave}

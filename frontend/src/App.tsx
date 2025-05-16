@@ -5,6 +5,7 @@ import { createTaskApi } from './utils'
 
 function App() {
   const [tasks, setTasks] = useState([] as Task[])
+  const [editableTasks, setEditableTasks] = useState<Record<number, boolean>>({})
 
   const api = createTaskApi('http://localhost', '4000')
 
@@ -19,13 +20,25 @@ function App() {
       return new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime()
     })
   }
+  const isTaskEditable = (task: Task) => !!editableTasks[task.id]
+  const setTaskEditability = (task: Task, isEditable: boolean) => {
+    setEditableTasks({
+      ...editableTasks,
+      [task.id]: isEditable,
+    })
+  }
+
   const handleTaskAdd = async () => {
     const newTask: UnpersistedTask = { description: '' }
-    const updatedTasks = await api.createTask(newTask)
+    const updatedTasks = sortTasks(await api.createTask(newTask))
 
-    setTasks(sortTasks(updatedTasks))
+    // Set new task as editable
+    setTaskEditability(updatedTasks[0], true)
+
+    setTasks(updatedTasks)
   }
-  const handleTaskEdit = (updatedTask: Task) => {
+  const handleTaskEdit = (task: Task) => setTaskEditability(task, true)
+  const handleTaskUpdate = (updatedTask: Task) => {
     setTasks(tasks.map(task => {
       if (task.id === updatedTask.id) {
         return updatedTask
@@ -37,12 +50,26 @@ function App() {
   const handleTaskSave = async (task: Task) => {
     const updatedTasks = await api.updateTask(task)
 
+    setTaskEditability(task, false)
     setTasks(sortTasks(updatedTasks))
   }
   const handleTaskDelete = async (task: Task) => {
     const updatedTasks = await api.deleteTask(task)
 
     setTasks(sortTasks(updatedTasks))
+  }
+  const handleTaskCompletion = (task: Task) => {
+    const updatedTask = {
+      ...task,
+      completedAt: task.completedAt ? undefined : new Date(),
+    }
+
+    if (isTaskEditable(task)) {
+      handleTaskUpdate(updatedTask)
+    } else {
+      // Immediately save update when the task is not in an edit state
+      handleTaskSave(updatedTask)
+    }
   }
 
   useEffect(() => {
@@ -62,8 +89,11 @@ function App() {
       <hr className="mb-2" />
       <TaskList
         tasks={tasks}
+        isTaskEditable={isTaskEditable}
         onTaskAdd={handleTaskAdd}
-        onTaskUpdate={handleTaskEdit}
+        onTaskCompletion={handleTaskCompletion}
+        onTaskUpdate={handleTaskUpdate}
+        onTaskEdit={handleTaskEdit}
         onTaskSave={handleTaskSave}
         onTaskDelete={handleTaskDelete}
       />
