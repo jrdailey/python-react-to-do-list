@@ -11,12 +11,12 @@ const TaskCompletionStatus = ({
 }: TaskCompletionStatusProps) => {
   return (
     <>
-      {isEditable ?
-        <label>
-          <input type="checkbox" onChange={onChange} checked={!!completedAt} />
+      {isEditable || !completedAt ?
+        <label className="cursor-pointer">
+          <input type="checkbox" className="cursor-pointer" onChange={onChange} checked={!!completedAt} />
           &nbsp;Complete
         </label> :
-        completedAt && <span className="h-full font-light lg:h-auto">Completed at {new Date(completedAt).toLocaleString()}</span>
+        <span className="h-full font-light lg:h-auto">Completed at {new Date(completedAt).toLocaleString()}</span>
       }
     </>
   )

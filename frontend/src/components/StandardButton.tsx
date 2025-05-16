@@ -25,7 +25,7 @@ const StandardButton = ({
   return (
     <button
       type={type}
-      className={`rounded-md px-4 py-2 font-semibold text-white opacity-100 cursor-pointer hover:opacity-90 ${bgColor}`}
+      className={`rounded-md px-4 py-2 max-h-[40px] font-semibold text-white opacity-100 cursor-pointer hover:opacity-90 ${bgColor}`}
       onClick={onClick}>
       {text}
     </button >

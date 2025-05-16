@@ -36,11 +36,18 @@ const TaskListItem = ({
       description: event.target.value,
     })
   }
-  const handleTaskCompletion = () => {
-    return onTaskUpdate({
+  const toggleTaskCompletion = () => {
+    const updatedTask = {
       ...task,
       completedAt: task.completedAt ? undefined : new Date(),
-    })
+    }
+
+    if (task.isEditable) {
+      onTaskUpdate(updatedTask)
+    } else {
+      // Immediately save update when the task is not in an edit state
+      onTaskSave(updatedTask)
+    }
   }
   const handleTaskDelete = () => onTaskDelete(task)
 
@@ -53,14 +60,14 @@ const TaskListItem = ({
           onUpdate={handleTaskDescriptionUpdate}
         />
       </span>
-      <span className="inline-flex justify-end flex-wrap content-center text-left align-top py-2 pr-2 w-full md:w-1/2 lg:align-center lg:w-auto ">
+      <span className="inline-flex justify-end flex-wrap content-center text-right align-top py-2 pr-2 w-full md:w-1/2 lg:align-center lg:w-1/4">
         <TaskCompletionStatus
           completedAt={task.completedAt}
           isEditable={task.isEditable}
-          onChange={handleTaskCompletion}
+          onChange={toggleTaskCompletion}
         />
       </span>
-      <span className="inline-flex justify-end gap-2 w-full min-w-[160px] mt-1 lg:justify-between lg:w-[160px] lg:mt-0">
+      <span className="inline-flex justify-end gap-2 w-full min-w-[160px] items-center mt-1 lg:justify-between lg:w-[160px] lg:mt-0">
         <TaskActions
           isEditable={task.isEditable}
           onTaskDelete={handleTaskDelete}
