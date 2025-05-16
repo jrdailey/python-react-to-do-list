@@ -1,19 +1,13 @@
 import { Task } from './types'
 import TaskList from './components/TaskList'
-import { useState } from 'react'
-
-const initialTasks: Task[] = [
-  {
-    id: 0,
-    description: 'Do the thing',
-  },
-  {
-    id: 1,
-    description: 'Do the other thing',
-  },
-]
+import { useEffect, useState } from 'react'
+import { createTaskApi } from './utils'
 
 function App() {
+  const [tasks, setTasks] = useState([] as Task[])
+
+  const api = createTaskApi('http://localhost', '4000')
+
   const sortTasks = (tasks: Task[]) => {
     // Returns a new, sorted task list
     return [...tasks].sort((a, b) => {
@@ -22,19 +16,17 @@ function App() {
       if (!a.completedAt) return -1
       if (!b.completedAt) return 1
 
-      return b.completedAt.getTime() - a.completedAt.getTime()
+      return new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime()
     })
   }
-  const [tasks, setTasks] = useState(sortTasks(initialTasks))
+  const handleTaskAdd = async () => {
+    const newTask: Task = { description: '' }
+    const updatedTasks = await api.createTask(newTask)
+    console.log({ updatedTasks })
 
-  const handleTaskAdd = () => {
-    const newTask: Task = {
-      id: tasks.length,
-      description: '',
-    }
-    setTasks([newTask, ...tasks])
+    setTasks(sortTasks(updatedTasks))
   }
-  const handleTaskUpdate = (updatedTask: Task) => {
+  const handleTaskEdit = (updatedTask: Task) => {
     setTasks(tasks.map(task => {
       if (task.id === updatedTask.id) {
         return updatedTask
@@ -43,13 +35,27 @@ function App() {
       }
     }))
   }
-  const handleTaskSave = (task: Task) => {
-    // ToDo: Make API call
-    setTasks(sortTasks(tasks))
+  const handleTaskSave = async (task: Task) => {
+    const updatedTasks = await api.updateTask(task)
+
+    setTasks(sortTasks(updatedTasks))
   }
-  const handleTaskDelete = (task: Task) => {
-    setTasks(tasks.filter(candidate => candidate.id !== task.id))
+  const handleTaskDelete = async (task: Task) => {
+    const updatedTasks = await api.deleteTask(task)
+
+    setTasks(sortTasks(updatedTasks))
   }
+
+  useEffect(() => {
+    const initializeTasks = async () => {
+      const tasks = await api.getTasks()
+
+      setTasks(sortTasks(tasks))
+    }
+
+    initializeTasks()
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Intentionally run once on load
+  }, [])
 
   return (
     <>
@@ -58,7 +64,7 @@ function App() {
       <TaskList
         tasks={tasks}
         onTaskAdd={handleTaskAdd}
-        onTaskUpdate={handleTaskUpdate}
+        onTaskUpdate={handleTaskEdit}
         onTaskSave={handleTaskSave}
         onTaskDelete={handleTaskDelete}
       />
