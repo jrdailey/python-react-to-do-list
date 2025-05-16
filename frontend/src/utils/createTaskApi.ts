@@ -1,4 +1,4 @@
-import { Task } from '../types'
+import { Task, UnpersistedTask } from '../types'
 
 export const createTaskApi = (host: string, port: string) => {
   const apiAddress = `${host}:${port}/api`
@@ -10,7 +10,7 @@ export const createTaskApi = (host: string, port: string) => {
     return tasks
   }
 
-  const createTask = async (task: Task) => {
+  const createTask = async (task: UnpersistedTask) => {
     const response = await fetch(
       `${apiAddress}/tasks`,
       {

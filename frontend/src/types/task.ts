@@ -2,5 +2,6 @@ export interface Task {
   id: number,
   completedAt?: Date,
   description: string,
-  isEditable: boolean,
 }
+
+export type UnpersistedTask = Omit<Task, 'id'>

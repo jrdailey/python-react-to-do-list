@@ -1,4 +1,4 @@
-import { Task } from './types'
+import { Task, UnpersistedTask } from './types'
 import TaskList from './components/TaskList'
 import { useEffect, useState } from 'react'
 import { createTaskApi } from './utils'
@@ -20,12 +20,8 @@ function App() {
     })
   }
   const handleTaskAdd = async () => {
-    const newTask: Task = {
-      id: -1, // defer ID assignment to server
-      description: '', isEditable: true,
-    }
+    const newTask: UnpersistedTask = { description: '' }
     const updatedTasks = await api.createTask(newTask)
-    console.log({ updatedTasks })
 
     setTasks(sortTasks(updatedTasks))
   }
