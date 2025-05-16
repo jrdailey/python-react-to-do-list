@@ -9,7 +9,7 @@ function App() {
   const [editableTasks, setEditableTasks] = useState<Record<number, boolean>>({})
   const [errorMessage, setErrorMessage] = useState('')
 
-  const api = createTaskApi('http://localhost', '4000')
+  const api = createTaskApi()
 
   const sortTasks = (tasks: Task[]) => {
     // Returns a new, sorted task list
