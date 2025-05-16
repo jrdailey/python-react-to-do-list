@@ -45,7 +45,7 @@ def update_task(task_id):
     updated_task_data = request.get_json()
     updated_task = {
         **updated_task_data,
-        id: int(task_id) # prevent modification of ID
+        'id': int(task_id) # prevent modification of ID
     }
 
     tasks = getStoredTasks()
