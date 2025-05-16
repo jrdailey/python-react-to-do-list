@@ -20,7 +20,10 @@ function App() {
     })
   }
   const handleTaskAdd = async () => {
-    const newTask: Task = { description: '', isEditable: true }
+    const newTask: Task = {
+      id: -1, // defer ID assignment to server
+      description: '', isEditable: true,
+    }
     const updatedTasks = await api.createTask(newTask)
     console.log({ updatedTasks })
 

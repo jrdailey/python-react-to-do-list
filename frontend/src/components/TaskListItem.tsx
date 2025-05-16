@@ -6,31 +6,27 @@ import StandardButton from './StandardButton'
 
 interface TaskListItemProps {
   task: Task
+  isEditable: boolean,
   onTaskDelete: (task: Task) => void,
+  onTaskEdit: (task: Task, isEditable: boolean) => void,
   onTaskSave: (task: Task) => void,
   onTaskUpdate: (task: Task) => void,
 }
 
 const TaskListItem = ({
   task,
+  isEditable,
   onTaskDelete,
+  onTaskEdit,
   onTaskSave,
   onTaskUpdate,
 }: TaskListItemProps) => {
-  const toggleEditable = () => {
-    onTaskUpdate({
-      ...task,
-      isEditable: !task.isEditable,
-    })
-  }
-
+  const toggleEditable = () => onTaskEdit(task, !isEditable)
   const handleTaskSave = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    onTaskSave({
-      ...task,
-      isEditable: false,
-    })
+    onTaskSave(task)
+    toggleEditable()
   }
   const handleTaskDescriptionUpdate = (event: ChangeEvent<HTMLInputElement>) => {
     onTaskUpdate({
@@ -44,7 +40,7 @@ const TaskListItem = ({
       completedAt: task.completedAt ? undefined : new Date(),
     }
 
-    if (task.isEditable) {
+    if (isEditable) {
       onTaskUpdate(updatedTask)
     } else {
       // Immediately save update when the task is not in an edit state
@@ -62,26 +58,26 @@ const TaskListItem = ({
         <span className="inline-flex flex-wrap content-center w-full md:w-1/2">
           <TaskDescription
             description={task.description}
-            isEditable={task.isEditable}
+            isEditable={isEditable}
             onUpdate={handleTaskDescriptionUpdate}
           />
         </span>
         <span className="inline-flex justify-end flex-wrap content-center text-right align-top py-2 pr-2 w-full md:w-1/2 lg:align-center lg:w-1/4">
           <TaskCompletionStatus
             completedAt={task.completedAt}
-            isEditable={task.isEditable}
+            isEditable={isEditable}
             onChange={toggleTaskCompletion}
           />
         </span>
         <span className="inline-flex justify-end gap-2 w-full min-w-[160px] items-center mt-1 lg:justify-between lg:w-[160px] lg:mt-0">
-          {task.isEditable &&
+          {isEditable &&
             <StandardButton
               type="submit"
               text="Save"
               color="green"
             />
           }
-          {!task.isEditable &&
+          {!isEditable &&
             <StandardButton
               text="Edit"
               color="gray"

@@ -1,6 +1,7 @@
 import type { Task } from '../types'
 import TaskListItem from './TaskListItem'
 import StandardButton from './StandardButton'
+import { useState } from 'react'
 
 interface TaskListProps {
   tasks: Task[],
@@ -17,6 +18,15 @@ const TaskList = ({
   onTaskSave,
   onTaskUpdate,
 }: TaskListProps) => {
+  const [editableTasks, setEditableTasks] = useState<Record<number, boolean>>({})
+
+  const onTaskEdit = (task: Task, isEditable: boolean) => {
+    setEditableTasks({
+      ...editableTasks,
+      [task.id]: isEditable,
+    })
+  }
+
   return (
     <>
       <div className="flex justify-center">
@@ -34,7 +44,9 @@ const TaskList = ({
                 <TaskListItem
                   key={task.id}
                   task={task}
+                  isEditable={!!editableTasks[task.id]}
                   onTaskDelete={onTaskDelete}
+                  onTaskEdit={onTaskEdit}
                   onTaskSave={onTaskSave}
                   onTaskUpdate={onTaskUpdate}
                 />,
