@@ -1,3 +1,5 @@
+import type { MouseEventHandler } from 'react'
+
 const colorMap = {
   blue: 'bg-blue-500',
   gray: 'bg-slate-400',
@@ -11,7 +13,7 @@ interface StandardButtonProps {
   type?: 'button' | 'submit' | 'reset' | undefined,
   color?: ColorMapKeys,
   text: string,
-  onClick: () => void,
+  onClick?: MouseEventHandler<HTMLButtonElement>,
 }
 
 const StandardButton = ({

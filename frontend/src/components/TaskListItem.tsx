@@ -1,8 +1,8 @@
 import { Task } from '../types'
-import type { ChangeEvent } from 'react'
+import type { ChangeEvent, FormEvent } from 'react'
 import TaskDescription from './TaskDescription'
 import TaskCompletionStatus from './TaskCompletionStatus'
-import TaskActions from './TaskActions'
+import StandardButton from './StandardButton'
 
 interface TaskListItemProps {
   task: Task
@@ -24,7 +24,9 @@ const TaskListItem = ({
     })
   }
 
-  const handleTaskSave = () => {
+  const handleTaskSave = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
     onTaskSave({
       ...task,
       isEditable: false,
@@ -52,29 +54,47 @@ const TaskListItem = ({
   const handleTaskDelete = () => onTaskDelete(task)
 
   return (
-    <li className="flex flex-wrap justify-evenly outline rounded-sm shadow-lg p-2 mb-2 md:justify-between lg:flex-nowrap">
-      <span className="inline-flex flex-wrap content-center w-full md:w-1/2">
-        <TaskDescription
-          description={task.description}
-          isEditable={task.isEditable}
-          onUpdate={handleTaskDescriptionUpdate}
-        />
-      </span>
-      <span className="inline-flex justify-end flex-wrap content-center text-right align-top py-2 pr-2 w-full md:w-1/2 lg:align-center lg:w-1/4">
-        <TaskCompletionStatus
-          completedAt={task.completedAt}
-          isEditable={task.isEditable}
-          onChange={toggleTaskCompletion}
-        />
-      </span>
-      <span className="inline-flex justify-end gap-2 w-full min-w-[160px] items-center mt-1 lg:justify-between lg:w-[160px] lg:mt-0">
-        <TaskActions
-          isEditable={task.isEditable}
-          onTaskDelete={handleTaskDelete}
-          onTaskEdit={toggleEditable}
-          onTaskSave={handleTaskSave}
-        />
-      </span>
+    <li>
+      <form
+        className="flex flex-wrap justify-evenly outline rounded-sm shadow-lg p-2 mb-2 md:justify-between lg:flex-nowrap"
+        onSubmit={handleTaskSave}
+      >
+        <span className="inline-flex flex-wrap content-center w-full md:w-1/2">
+          <TaskDescription
+            description={task.description}
+            isEditable={task.isEditable}
+            onUpdate={handleTaskDescriptionUpdate}
+          />
+        </span>
+        <span className="inline-flex justify-end flex-wrap content-center text-right align-top py-2 pr-2 w-full md:w-1/2 lg:align-center lg:w-1/4">
+          <TaskCompletionStatus
+            completedAt={task.completedAt}
+            isEditable={task.isEditable}
+            onChange={toggleTaskCompletion}
+          />
+        </span>
+        <span className="inline-flex justify-end gap-2 w-full min-w-[160px] items-center mt-1 lg:justify-between lg:w-[160px] lg:mt-0">
+          {task.isEditable &&
+            <StandardButton
+              type="submit"
+              text="Save"
+              color="green"
+            />
+          }
+          {!task.isEditable &&
+            <StandardButton
+              text="Edit"
+              color="gray"
+              onClick={toggleEditable}
+            />
+          }
+          <StandardButton
+            text='Delete'
+            color='red'
+            onClick={handleTaskDelete}
+          />
+        </span>
+      </form>
     </li>
   )
 }
