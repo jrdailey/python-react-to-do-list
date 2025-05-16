@@ -20,7 +20,7 @@ function App() {
     })
   }
   const handleTaskAdd = async () => {
-    const newTask: Task = { description: '' }
+    const newTask: Task = { description: '', isEditable: true }
     const updatedTasks = await api.createTask(newTask)
     console.log({ updatedTasks })
 
