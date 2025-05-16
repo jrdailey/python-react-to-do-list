@@ -1,4 +1,5 @@
 import { Task, UnpersistedTask } from './types'
+import ErrorDisplay from './components/ErrorDisplay'
 import TaskList from './components/TaskList'
 import { useEffect, useState } from 'react'
 import { createTaskApi } from './utils'
@@ -6,6 +7,7 @@ import { createTaskApi } from './utils'
 function App() {
   const [tasks, setTasks] = useState([] as Task[])
   const [editableTasks, setEditableTasks] = useState<Record<number, boolean>>({})
+  const [errorMessage, setErrorMessage] = useState('')
 
   const api = createTaskApi('http://localhost', '4000')
 
@@ -29,13 +31,19 @@ function App() {
   }
 
   const handleTaskAdd = async () => {
-    const newTask: UnpersistedTask = { description: '' }
-    const updatedTasks = sortTasks(await api.createTask(newTask))
+    setErrorMessage('')
 
-    // Set new task as editable
-    setTaskEditability(updatedTasks[0], true)
+    try {
+      const newTask: UnpersistedTask = { description: '' }
+      const updatedTasks = sortTasks(await api.createTask(newTask))
 
-    setTasks(updatedTasks)
+      // Set new task as editable
+      setTaskEditability(updatedTasks[0], true)
+
+      setTasks(updatedTasks)
+    } catch {
+      setErrorMessage('An error occurred while trying to create a new task. Try again.')
+    }
   }
   const handleTaskEdit = (task: Task) => setTaskEditability(task, true)
   const handleTaskUpdate = (updatedTask: Task) => {
@@ -48,15 +56,27 @@ function App() {
     }))
   }
   const handleTaskSave = async (task: Task) => {
-    const updatedTasks = await api.updateTask(task)
+    setErrorMessage('')
 
-    setTaskEditability(task, false)
-    setTasks(sortTasks(updatedTasks))
+    try {
+      const updatedTasks = await api.updateTask(task)
+
+      setTaskEditability(task, false)
+      setTasks(sortTasks(updatedTasks))
+    } catch {
+      setErrorMessage('An error occurred while saving the task. Try again.')
+    }
   }
   const handleTaskDelete = async (task: Task) => {
-    const updatedTasks = await api.deleteTask(task)
+    setErrorMessage('')
 
-    setTasks(sortTasks(updatedTasks))
+    try {
+      const updatedTasks = await api.deleteTask(task)
+
+      setTasks(sortTasks(updatedTasks))
+    } catch {
+      setErrorMessage('An error occurred while deleting the task. Try again.')
+    }
   }
   const handleTaskCompletion = (task: Task) => {
     const updatedTask = {
@@ -74,9 +94,13 @@ function App() {
 
   useEffect(() => {
     const initializeTasks = async () => {
-      const tasks = await api.getTasks()
+      try {
+        const tasks = await api.getTasks()
 
-      setTasks(sortTasks(tasks))
+        setTasks(sortTasks(tasks))
+      } catch {
+        setErrorMessage('An error occurred while retrieving tasks. Try again.')
+      }
     }
 
     initializeTasks()
@@ -87,6 +111,11 @@ function App() {
     <>
       <h1 className="text-4xl p-2">Tasks</h1>
       <hr className="mb-2" />
+      {errorMessage &&
+        <div className="flex justify-center">
+          <ErrorDisplay errorMessage={errorMessage} />
+        </div>
+      }
       <TaskList
         tasks={tasks}
         isTaskEditable={isTaskEditable}
