@@ -2,8 +2,8 @@ import type { MouseEventHandler } from 'react'
 
 const colorMap = {
   blue: 'bg-blue-500',
-  gray: 'bg-slate-400',
   green: 'bg-green-500',
+  gray: 'bg-slate-400',
   red: 'bg-red-500',
 }
 

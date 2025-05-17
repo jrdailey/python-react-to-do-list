@@ -1,0 +1,10 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`StandardButton > Default options > matches snapshot 1`] = `
+<button
+  class="rounded-md px-4 py-2 max-h-[40px] font-semibold text-white opacity-100 cursor-pointer hover:opacity-90 bg-slate-400"
+  type="button"
+>
+  Button text
+</button>
+`;
