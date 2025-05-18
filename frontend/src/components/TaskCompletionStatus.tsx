@@ -1,7 +1,7 @@
 interface TaskCompletionStatusProps {
-  completedAt: Date | undefined,
+  completedAt?: Date | string | undefined,
   isEditable: boolean,
-  onChange: () => void,
+  onChange?: () => void,
 }
 
 const TaskCompletionStatus = ({
