@@ -5,6 +5,7 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import stylisticJs from '@stylistic/eslint-plugin-js'
 import tsParser from '@typescript-eslint/parser'
 import tsPlugin from '@typescript-eslint/eslint-plugin'
+import vitestPlugin from 'eslint-plugin-vitest'
 
 export default [
   { ignores: ['dist'] },
@@ -12,13 +13,15 @@ export default [
     files: ['**/*.{js,jsx,ts,tsx}'],
     languageOptions: {
       ecmaVersion: 2020,
-      globals: globals.browser,
+      globals: {
+        ...globals.browser,
+        ...vitestPlugin.environments.env.globals,
+      },
       parser: tsParser,
       parserOptions: {
         ecmaVersion: 'latest',
         ecmaFeatures: { jsx: true },
         sourceType: 'module',
-        project: './tsconfig.json', // optional
       },
     },
     plugins: {
@@ -26,11 +29,13 @@ export default [
       'react-refresh': reactRefresh,
       '@stylistic/js': stylisticJs,
       '@typescript-eslint': tsPlugin,
+      'vitest': vitestPlugin,
     },
     rules: {
       ...js.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
       ...tsPlugin.configs.recommended.rules,
+      ...vitestPlugin.configs.recommended.rules,
       'comma-dangle': ['error', 'always-multiline'],
       'quotes': ['error', 'single'],
       'semi': ['error', 'never'],
