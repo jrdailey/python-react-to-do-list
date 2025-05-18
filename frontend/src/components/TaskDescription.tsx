@@ -3,7 +3,7 @@ import { ChangeEvent } from 'react'
 interface TaskDescriptionProps {
   description: string,
   isEditable: boolean,
-  onUpdate: (event: ChangeEvent<HTMLInputElement>) => void,
+  onUpdate?: (event: ChangeEvent<HTMLInputElement>) => void,
 }
 
 const TaskDescription = ({
