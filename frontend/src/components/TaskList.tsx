@@ -25,33 +25,29 @@ const TaskList = ({
 }: TaskListProps) => {
   return (
     <>
-      <div className="flex justify-center">
-        <div className="flex-col w-2/3 min-w-[250px]">
-          <div className="flex justify-end mb-2">
-            <StandardButton
-              color="blue"
-              text="Add Task"
-              onClick={onTaskAdd}
-            />
-          </div>
-          <ul>
-            {
-              tasks.map(task =>
-                <TaskListItem
-                  key={task.id}
-                  task={task}
-                  isEditable={isTaskEditable(task)}
-                  onTaskCompletion={onTaskCompletion}
-                  onTaskDelete={onTaskDelete}
-                  onTaskEdit={onTaskEdit}
-                  onTaskSave={onTaskSave}
-                  onTaskUpdate={onTaskUpdate}
-                />,
-              )
-            }
-          </ul>
-        </div>
+      <div className="flex justify-end mb-2">
+        <StandardButton
+          color="blue"
+          text="Add Task"
+          onClick={onTaskAdd}
+        />
       </div>
+      <ul>
+        {
+          tasks.map(task =>
+            <TaskListItem
+              key={task.id}
+              task={task}
+              isEditable={isTaskEditable(task)}
+              onTaskCompletion={onTaskCompletion}
+              onTaskDelete={onTaskDelete}
+              onTaskEdit={onTaskEdit}
+              onTaskSave={onTaskSave}
+              onTaskUpdate={onTaskUpdate}
+            />,
+          )
+        }
+      </ul>
     </>
   )
 }

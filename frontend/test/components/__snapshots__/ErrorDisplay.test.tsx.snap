@@ -3,7 +3,7 @@
 exports[`ErrorDisplay > matches the snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="w-2/3 my-2 p-2 font-semibold text-white text-center rounded-md bg-red-400 border-2 border-red-800"
+    class="my-2 p-2 font-semibold text-white text-center rounded-md bg-red-400 border-2 border-red-800"
   >
     Something went wrong
   </div>

@@ -111,21 +111,21 @@ function App() {
     <>
       <h1 className="text-4xl p-2">Tasks</h1>
       <hr className="mb-2" />
-      {errorMessage &&
-        <div className="flex justify-center">
-          <ErrorDisplay errorMessage={errorMessage} />
+      <div className="flex justify-center">
+        <div className="w-2/3 min-w-[250px]">
+          {errorMessage && <ErrorDisplay errorMessage={errorMessage} />}
+          <TaskList
+            tasks={tasks}
+            isTaskEditable={isTaskEditable}
+            onTaskAdd={handleTaskAdd}
+            onTaskCompletion={handleTaskCompletion}
+            onTaskUpdate={handleTaskUpdate}
+            onTaskEdit={handleTaskEdit}
+            onTaskSave={handleTaskSave}
+            onTaskDelete={handleTaskDelete}
+          />
         </div>
-      }
-      <TaskList
-        tasks={tasks}
-        isTaskEditable={isTaskEditable}
-        onTaskAdd={handleTaskAdd}
-        onTaskCompletion={handleTaskCompletion}
-        onTaskUpdate={handleTaskUpdate}
-        onTaskEdit={handleTaskEdit}
-        onTaskSave={handleTaskSave}
-        onTaskDelete={handleTaskDelete}
-      />
+      </div>
     </>
   )
 }
