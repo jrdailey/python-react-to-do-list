@@ -15,6 +15,7 @@ const TaskDescription = ({
     <>
       {isEditable ?
         <input
+          data-testid="task-description-input"
           className="w-full outline rounded-sm p-1"
           type="text"
           value={description}
@@ -22,6 +23,7 @@ const TaskDescription = ({
           onChange={onUpdate}
         /> :
         <span
+          data-testid="task-description-text"
           className="w-full h-full p-0.5 break-normal font-medium lg:h-auto">
           {description}
         </span>
