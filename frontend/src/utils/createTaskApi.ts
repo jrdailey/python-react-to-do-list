@@ -1,10 +1,6 @@
 import { Task, UnpersistedTask } from '../types'
 
-const apiHost = import.meta.env.VITE_API_HOST
-const apiPort = import.meta.env.VITE_API_PORT
-
-
-export const createTaskApi = () => {
+export const createTaskApi = (apiHost: string, apiPort: string) => {
   const apiUrl = `${apiHost}:${apiPort}/api`
 
   const getTasks = async () => {

@@ -9,7 +9,9 @@ function App() {
   const [editableTasks, setEditableTasks] = useState<Record<number, boolean>>({})
   const [errorMessage, setErrorMessage] = useState('')
 
-  const api = createTaskApi()
+  const apiHost = import.meta.env.VITE_API_HOST
+  const apiPort = import.meta.env.VITE_API_PORT
+  const api = createTaskApi(apiHost, apiPort)
 
   const sortTasks = (tasks: Task[]) => {
     // Returns a new, sorted task list
