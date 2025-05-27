@@ -3,6 +3,8 @@ from flask_cors import CORS
 from redis import Redis
 from services.task_service import TaskService
 
+API_PORT = 4000
+
 redis = Redis(host='localhost', port=6379, decode_responses=True)
 task_service = TaskService(redis)
 app = Flask(__name__)
@@ -33,4 +35,4 @@ def delete_task(task_id):
     return task_service.get_tasks(), 200
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=4000)
+    app.run(debug=True, host='0.0.0.0', port=API_PORT)
