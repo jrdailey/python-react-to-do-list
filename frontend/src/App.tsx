@@ -1,8 +1,10 @@
-import { Task, UnpersistedTask } from './types'
+import { FilterSetting, Task, UnpersistedTask } from './types'
 import ErrorDisplay from './components/ErrorDisplay'
 import TaskList from './components/TaskList'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { createTaskApi } from './utils'
+import FilterControls from './components/FilterControls'
+import { useTaskFilter } from './hooks'
 
 function App() {
   const [tasks, setTasks] = useState([] as Task[])
@@ -113,6 +115,15 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Intentionally run once on load
   }, [])
 
+  const {
+    defaultFilterSetting,
+    filteredTasks,
+    filterOptions,
+    setTaskFilter,
+  } = useTaskFilter(tasks)
+
+  const onFilterChange = useCallback((setting: FilterSetting) => setTaskFilter(setting), [setTaskFilter])
+
   return (
     <>
       <h1 className="text-4xl p-2">Tasks</h1>
@@ -120,16 +131,23 @@ function App() {
       <div className="flex justify-center">
         <div className="w-2/3 min-w-[250px]">
           {errorMessage && <ErrorDisplay errorMessage={errorMessage} />}
-          <TaskList
-            tasks={tasks}
-            isTaskEditable={isTaskEditable}
-            onTaskAdd={handleTaskAdd}
-            onTaskCompletion={handleTaskCompletion}
-            onTaskUpdate={handleTaskUpdate}
-            onTaskEdit={handleTaskEdit}
-            onTaskSave={handleTaskSave}
-            onTaskDelete={handleTaskDelete}
+          <FilterControls
+            defaultSetting={defaultFilterSetting}
+            options={filterOptions}
+            onChange={onFilterChange}
           />
+          <div className="pt-4">
+            <TaskList
+              tasks={filteredTasks}
+              isTaskEditable={isTaskEditable}
+              onTaskAdd={handleTaskAdd}
+              onTaskCompletion={handleTaskCompletion}
+              onTaskUpdate={handleTaskUpdate}
+              onTaskEdit={handleTaskEdit}
+              onTaskSave={handleTaskSave}
+              onTaskDelete={handleTaskDelete}
+            />
+          </div>
         </div>
       </div>
     </>

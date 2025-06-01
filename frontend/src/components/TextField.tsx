@@ -23,7 +23,7 @@ const TextField = ({
     <>
       {isEditable &&
         <label>
-          <strong>{label}</strong>
+          <strong>{label}:</strong>
           <input
             data-testid={`${inputName}-input`}
             className="w-full outline rounded-sm p-1"
