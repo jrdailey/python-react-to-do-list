@@ -47,7 +47,7 @@ const TaskListItem = ({
   return (
     <li>
       <form
-        className="flex flex-wrap justify-evenly outline rounded-sm shadow-lg p-2 mb-2 md:justify-between lg:flex-nowrap"
+        className={`flex flex-wrap justify-evenly outline rounded-sm shadow-lg p-2 mb-2 md:justify-between lg:flex-nowrap ${task.completedAt && !isEditable && 'bg-slate-200'}`}
         onSubmit={handleTaskSave}
       >
         <div className="flex flex-col flex-wrap gap-1 w-full md:w-1/2">
@@ -75,7 +75,7 @@ const TaskListItem = ({
           }
           <span className="font-light">Created at {new Date(task.createdAt).toLocaleString()}</span>
         </div>
-        <span className="inline-flex justify-start flex-wrap content-start text-left align-top py-2 pr-2 w-full md:w-1/2 md:justify-end md:content-center md:text-right lg:align-center lg:w-1/4">
+        <span className="inline-flex justify-start flex-wrap content-start text-left align-top py-2 w-full md:w-1/2 md:justify-end md:content-center md:text-right lg:align-center lg:w-1/4">
           <TaskCompletionStatus
             completedAt={task.completedAt}
             isEditable={isEditable}
