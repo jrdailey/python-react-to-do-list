@@ -8,7 +8,9 @@ const setup = (props: { isEditable: boolean }) => {
   const task: Task = {
     id: 1,
     completedAt: new Date(),
-    description: 'task',
+    createdAt: new Date(),
+    title: 'task',
+    description: 'hey',
   }
   const onTaskCompletion = vi.fn()
   const onTaskDelete = vi.fn()
