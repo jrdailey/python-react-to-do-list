@@ -63,7 +63,7 @@ const TaskListItem = ({
             />
           </div>
           {(isEditable || task.description) &&
-            <div className={!isEditable ? 'indent-4 italic' : ''}>
+            <div className={!isEditable ? 'pl-4 italic' : ''}>
               <TextField
                 label="Description"
                 value={task.description}
