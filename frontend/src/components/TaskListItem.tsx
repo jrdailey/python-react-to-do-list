@@ -58,6 +58,7 @@ const TaskListItem = ({
               inputName="task-title"
               isEditable={isEditable}
               autoFocus={true}
+              required={true}
               onUpdate={handleTaskTitleUpdate}
             />
           </div>

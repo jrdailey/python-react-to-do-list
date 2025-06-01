@@ -6,6 +6,7 @@ interface TextFieldProps {
   inputName: string,
   isEditable: boolean,
   autoFocus?: boolean,
+  required?: boolean,
   onUpdate?: (event: ChangeEvent<HTMLInputElement>) => void,
 }
 
@@ -15,6 +16,7 @@ const TextField = ({
   inputName,
   isEditable,
   autoFocus = false,
+  required = false,
   onUpdate,
 }: TextFieldProps) => {
   return (
@@ -28,6 +30,7 @@ const TextField = ({
             name={inputName}
             defaultValue={value}
             autoFocus={autoFocus}
+            required={required}
             onChange={onUpdate}
           />
         </label>
