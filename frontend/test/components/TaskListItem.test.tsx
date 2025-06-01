@@ -12,31 +12,25 @@ const setup = (props: { isEditable: boolean }) => {
     title: 'task',
     description: 'hey',
   }
-  const onTaskCompletion = vi.fn()
   const onTaskDelete = vi.fn()
   const onTaskEdit = vi.fn()
   const onTaskSave = vi.fn()
-  const onTaskUpdate = vi.fn()
 
   render(
     <TaskListItem
       task={task}
       isEditable={isEditable}
-      onTaskCompletion={onTaskCompletion}
       onTaskDelete={onTaskDelete}
       onTaskEdit={onTaskEdit}
       onTaskSave={onTaskSave}
-      onTaskUpdate={onTaskUpdate}
     />,
   )
 
   return {
     task,
-    onTaskCompletion,
     onTaskDelete,
     onTaskEdit,
     onTaskSave,
-    onTaskUpdate,
   }
 }
 
@@ -67,16 +61,6 @@ describe('TaskListItem', () => {
       const completionCheckbox = screen.getByTestId('task-completion-checkbox')
 
       expect(completionCheckbox).toBeDefined()
-    })
-
-    it('calls onTaskCompletion when the task completion checkbox is clicked', () => {
-      const { onTaskCompletion } = setup({ isEditable })
-
-      const completionCheckbox = screen.getByTestId('task-completion-checkbox')
-
-      fireEvent.click(completionCheckbox)
-
-      expect(onTaskCompletion).toHaveBeenCalledOnce()
     })
 
     it('renders a Save button', () => {

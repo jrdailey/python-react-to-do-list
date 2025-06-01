@@ -1,6 +1,8 @@
-import App from '../src/App'
 import type { Task } from '../src/types'
 import { fireEvent, render, screen, act } from '@testing-library/react'
+
+// Using a dynamic import to work around hoisting issues with vi.mock
+let App: typeof import('../src/App').default
 
 const mockedTasks: Task[] = [
   {
@@ -30,6 +32,7 @@ vi.mock('../src/utils/createTaskApi.ts', () => ({
 
 describe('App', () => {
   beforeEach(async () => {
+    App = (await import('../src/App')).default
     render(<App />)
     await screen.findByText(mockedTasks[0].title)
   })

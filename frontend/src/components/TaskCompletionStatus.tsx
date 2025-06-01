@@ -16,6 +16,7 @@ const TaskCompletionStatus = ({
           <input
             data-testid="task-completion-checkbox"
             type="checkbox"
+            name="task-completion-checkbox"
             className="cursor-pointer"
             onChange={onChange}
             defaultChecked={!!completedAt}

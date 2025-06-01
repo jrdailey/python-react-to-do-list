@@ -1,5 +1,5 @@
 import { Task } from '../types'
-import type { ChangeEvent, FormEvent } from 'react'
+import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react'
 import TextField from './TextField'
 import TaskCompletionStatus from './TaskCompletionStatus'
 import StandardButton from './StandardButton'
@@ -7,41 +7,53 @@ import StandardButton from './StandardButton'
 interface TaskListItemProps {
   task: Task
   isEditable: boolean,
-  onTaskCompletion: (task: Task) => void,
   onTaskDelete: (task: Task) => void,
   onTaskEdit: (task: Task) => void,
   onTaskSave: (task: Task) => void,
-  onTaskUpdate: (task: Task) => void,
 }
 
 const TaskListItem = ({
   task,
   isEditable,
-  onTaskCompletion,
   onTaskDelete,
   onTaskEdit,
   onTaskSave,
-  onTaskUpdate,
 }: TaskListItemProps) => {
+  const [localTask, setLocalTask] = useState(task)
+
+  useEffect(() => setLocalTask(task), [task])
+
   const handleTaskEdit = () => onTaskEdit(task)
   const handleTaskSave = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    onTaskSave(task)
+    onTaskSave(localTask)
   }
   const handleTaskTitleUpdate = (event: ChangeEvent<HTMLInputElement>) => {
-    onTaskUpdate({
-      ...task,
+    setLocalTask({
+      ...localTask,
       title: event.target.value,
     })
   }
   const handleTaskDescriptionUpdate = (event: ChangeEvent<HTMLInputElement>) => {
-    onTaskUpdate({
-      ...task,
+    setLocalTask({
+      ...localTask,
       description: event.target.value,
     })
   }
-  const handleTaskCompletion = () => onTaskCompletion(task)
+  const toggleTaskCompletion = () => {
+    const updatedTask = {
+      ...localTask,
+      completedAt: localTask.completedAt ? undefined : new Date(),
+    }
+
+    if (isEditable) {
+      setLocalTask(updatedTask)
+    } else {
+      // Immediately save changes when not in edit mode
+      onTaskSave(updatedTask)
+    }
+  }
   const handleTaskDelete = () => onTaskDelete(task)
 
   return (
@@ -54,7 +66,7 @@ const TaskListItem = ({
           <div className={!isEditable ? 'font-bold' : ''}>
             <TextField
               label="Title"
-              value={task.title}
+              value={localTask.title}
               inputName="task-title"
               isEditable={isEditable}
               autoFocus={true}
@@ -62,24 +74,24 @@ const TaskListItem = ({
               onUpdate={handleTaskTitleUpdate}
             />
           </div>
-          {(isEditable || task.description) &&
+          {(isEditable || localTask.description) &&
             <div className={!isEditable ? 'pl-4 italic' : ''}>
               <TextField
                 label="Description"
-                value={task.description}
+                value={localTask.description}
                 inputName="task-description"
                 isEditable={isEditable}
                 onUpdate={handleTaskDescriptionUpdate}
               />
             </div>
           }
-          <span className="font-light">Created at {new Date(task.createdAt).toLocaleString()}</span>
+          <span className="font-light">Created at {new Date(localTask.createdAt).toLocaleString()}</span>
         </div>
         <span className="inline-flex justify-start flex-wrap content-start text-left align-top py-2 w-full md:w-1/2 md:justify-end md:content-center md:text-right lg:align-center lg:w-1/4">
           <TaskCompletionStatus
-            completedAt={task.completedAt}
+            completedAt={localTask.completedAt}
             isEditable={isEditable}
-            onChange={handleTaskCompletion}
+            onChange={toggleTaskCompletion}
           />
         </span>
         <span className="inline-flex justify-end gap-2 w-full min-w-[160px] items-center mt-1 lg:justify-between lg:w-[160px] lg:mt-0">

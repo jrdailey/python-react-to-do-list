@@ -6,7 +6,7 @@ const ErrorDisplay = ({
   errorMessage,
 }: ErrorDisplayProps) => {
   return (
-    <div className="my-2 p-2 font-semibold text-white text-center rounded-md bg-red-400 border-2 border-red-800">
+    <div role="alert" className="my-2 p-2 font-semibold text-white text-center rounded-md bg-red-400 border-2 border-red-800">
       {errorMessage}
     </div>
   )

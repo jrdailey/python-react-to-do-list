@@ -4,6 +4,7 @@ exports[`ErrorDisplay > matches the snapshot 1`] = `
 <DocumentFragment>
   <div
     class="my-2 p-2 font-semibold text-white text-center rounded-md bg-red-400 border-2 border-red-800"
+    role="alert"
   >
     Something went wrong
   </div>

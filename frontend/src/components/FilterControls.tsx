@@ -23,7 +23,7 @@ const FilterControls = ({
   }, [filterText, selectedOption, onChange])
 
   return (
-    <div>
+    <>
       <label className="text-lg">
         <strong>Filter:</strong><br />
         <input
@@ -49,7 +49,7 @@ const FilterControls = ({
           ))
         }
       </div>
-    </div>
+    </>
   )
 }
 
