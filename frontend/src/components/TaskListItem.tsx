@@ -1,6 +1,6 @@
 import { Task } from '../types'
 import type { ChangeEvent, FormEvent } from 'react'
-import TaskDescription from './TaskDescription'
+import TextField from './TextField'
 import TaskCompletionStatus from './TaskCompletionStatus'
 import StandardButton from './StandardButton'
 
@@ -29,6 +29,12 @@ const TaskListItem = ({
 
     onTaskSave(task)
   }
+  const handleTaskTitleUpdate = (event: ChangeEvent<HTMLInputElement>) => {
+    onTaskUpdate({
+      ...task,
+      title: event.target.value,
+    })
+  }
   const handleTaskDescriptionUpdate = (event: ChangeEvent<HTMLInputElement>) => {
     onTaskUpdate({
       ...task,
@@ -44,14 +50,31 @@ const TaskListItem = ({
         className="flex flex-wrap justify-evenly outline rounded-sm shadow-lg p-2 mb-2 md:justify-between lg:flex-nowrap"
         onSubmit={handleTaskSave}
       >
-        <span className="inline-flex flex-wrap content-center w-full md:w-1/2">
-          <TaskDescription
-            description={task.description}
-            isEditable={isEditable}
-            onUpdate={handleTaskDescriptionUpdate}
-          />
-        </span>
-        <span className="inline-flex justify-end flex-wrap content-center text-right align-top py-2 pr-2 w-full md:w-1/2 lg:align-center lg:w-1/4">
+        <div className="flex flex-col flex-wrap gap-1 w-full md:w-1/2">
+          <div className={!isEditable ? 'font-bold' : ''}>
+            <TextField
+              label="Title"
+              value={task.title}
+              inputName="task-title"
+              isEditable={isEditable}
+              autoFocus={true}
+              onUpdate={handleTaskTitleUpdate}
+            />
+          </div>
+          {(isEditable || task.description) &&
+            <div className={!isEditable ? 'indent-4 italic' : ''}>
+              <TextField
+                label="Description"
+                value={task.description}
+                inputName="task-description"
+                isEditable={isEditable}
+                onUpdate={handleTaskDescriptionUpdate}
+              />
+            </div>
+          }
+          <span className="font-light">Created at {new Date(task.createdAt).toLocaleString()}</span>
+        </div>
+        <span className="inline-flex justify-start flex-wrap content-start text-left align-top py-2 pr-2 w-full md:w-1/2 md:justify-end md:content-center md:text-right lg:align-center lg:w-1/4">
           <TaskCompletionStatus
             completedAt={task.completedAt}
             isEditable={isEditable}

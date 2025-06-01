@@ -1,6 +1,8 @@
 export interface Task {
   id: number,
   completedAt?: Date,
+  createdAt: Date,
+  title: string,
   description: string,
 }
 

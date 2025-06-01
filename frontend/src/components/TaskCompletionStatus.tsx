@@ -18,7 +18,7 @@ const TaskCompletionStatus = ({
             type="checkbox"
             className="cursor-pointer"
             onChange={onChange}
-            checked={!!completedAt}
+            defaultChecked={!!completedAt}
           />
           &nbsp;Completed
         </label> :

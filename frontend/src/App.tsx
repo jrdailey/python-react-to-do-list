@@ -36,7 +36,11 @@ function App() {
     setErrorMessage('')
 
     try {
-      const newTask: UnpersistedTask = { description: '' }
+      const newTask: UnpersistedTask = {
+        title: '',
+        description: '',
+        createdAt: new Date(),
+      }
       const updatedTasks = sortTasks(await api.createTask(newTask))
 
       // Set new task as editable
