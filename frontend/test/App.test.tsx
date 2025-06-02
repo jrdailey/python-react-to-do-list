@@ -20,10 +20,10 @@ const mockedTasks: Task[] = [
   },
 ]
 const apiMock = {
-  getTasks: vi.fn().mockImplementation(() => mockedTasks),
-  createTask: vi.fn(),
-  updateTask: vi.fn(),
-  deleteTask: vi.fn(),
+  getTasks: vi.fn(() => mockedTasks),
+  createTask: vi.fn(() => mockedTasks),
+  updateTask: vi.fn(() => mockedTasks),
+  deleteTask: vi.fn(() => mockedTasks),
 }
 
 vi.mock('../src/utils/createTaskApi.ts', () => ({

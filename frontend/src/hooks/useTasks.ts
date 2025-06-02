@@ -20,6 +20,7 @@ const sortTasks = (tasks: Task[]) => {
 
 export const useTasks = () => {
   const [tasks, setTasks] = useState([] as Task[])
+  const [sortedTasks, setSortedTasks] = useState(tasks)
   const [taskErrorMessage, setErrorMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
@@ -41,7 +42,7 @@ export const useTasks = () => {
         description: '',
         createdAt: new Date(),
       }
-      const updatedTasks = sortTasks(await api.createTask(newTask))
+      const updatedTasks = await api.createTask(newTask)
 
       // Set new task as editable
       setTaskEditability(updatedTasks[0], true)
@@ -61,7 +62,7 @@ export const useTasks = () => {
       const updatedTasks = await api.updateTask(task)
 
       setTaskEditability(task, false)
-      setTasks(sortTasks(updatedTasks))
+      setTasks(updatedTasks)
     } catch {
       setErrorMessage('An error occurred while saving the task. Try again.')
     }
@@ -73,7 +74,7 @@ export const useTasks = () => {
     try {
       const updatedTasks = await api.deleteTask(task)
 
-      setTasks(sortTasks(updatedTasks))
+      setTasks(updatedTasks)
     } catch {
       setErrorMessage('An error occurred while deleting the task. Try again.')
     }
@@ -86,7 +87,7 @@ export const useTasks = () => {
       try {
         const tasks = await api.getTasks()
 
-        setTasks(sortTasks(tasks))
+        setTasks(tasks)
       } catch {
         setErrorMessage('An error occurred while retrieving tasks. Try again.')
       } finally {
@@ -98,8 +99,10 @@ export const useTasks = () => {
 
   }, [])
 
+  useEffect(() => setSortedTasks(sortTasks(tasks)), [tasks])
+
   return {
-    tasks,
+    tasks: sortedTasks,
     taskErrorMessage,
     isLoading,
     isTaskEditable,
