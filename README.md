@@ -44,7 +44,9 @@ Prerequisites: Node v18+
 2. `npm install`
 
 ### Install Backend
-Prerequisites: Python
+Prerequisites: Python3, pip
+
+The `start.sh` script will create a virtual environment and automatically install necessary dependencies.
 
 **Note**: *The backend API runs on port 4000. If you need to change this for your dev environment, modify the `API_PORT` variable in `backend/api.py`, and set the `VITE_API_PORT` environment variable in `frontend/.env` to match.*
 
