@@ -62,8 +62,8 @@ const TaskListItem = ({
         className={`flex flex-wrap justify-evenly outline rounded-sm shadow-lg p-2 mb-2 md:justify-between lg:flex-nowrap ${task.completedAt && !isEditable && 'bg-slate-200'}`}
         onSubmit={handleTaskSave}
       >
-        <div className="flex flex-col flex-wrap gap-1 w-full md:w-1/2">
-          <div className={!isEditable ? 'font-bold' : ''}>
+        <div className="flex flex-col flex-wrap justify-around gap-1 w-full md:w-1/2">
+          <div className={!isEditable ? 'font-bold text-lg' : ''}>
             <TextField
               label="Title"
               value={localTask.title}
@@ -87,22 +87,25 @@ const TaskListItem = ({
           }
           <span className="font-light">Created at {new Date(localTask.createdAt).toLocaleString()}</span>
         </div>
-        <span className="inline-flex justify-start flex-wrap content-start text-left align-top py-2 w-full md:w-1/2 md:justify-end md:content-center md:text-right lg:align-center lg:w-1/4">
-          <TaskCompletionStatus
-            completedAt={localTask.completedAt}
-            isEditable={isEditable}
-            onChange={toggleTaskCompletion}
-          />
-        </span>
-        <span className="inline-flex justify-end gap-2 w-full min-w-[160px] items-center mt-1 lg:justify-between lg:w-[160px] lg:mt-0">
-          {isEditable &&
-            <StandardButton type="submit" text="Save" color="green" />
-          }
-          {!isEditable &&
-            <StandardButton text="Edit" color="gray" onClick={handleTaskEdit} />
-          }
-          <StandardButton text="Delete" color="red" onClick={handleTaskDelete} />
-        </span>
+        <div className="flex flex-col justify-around flex-wrap gap-1 w-full md:w-1/2">
+          <hr className="my-2 w-full md:hidden" />
+          <div className={`flex ${!isEditable && localTask.completedAt ? 'justify-start' : 'justify-end'} md:justify-end w-full`}>
+            <TaskCompletionStatus
+              completedAt={localTask.completedAt}
+              isEditable={isEditable}
+              onChange={toggleTaskCompletion}
+            />
+          </div>
+          <div className="flex justify-end w-full gap-2 pt-2">
+            {isEditable &&
+              <StandardButton type="submit" text="Save" color="green" />
+            }
+            {!isEditable &&
+              <StandardButton text="Edit" color="gray" onClick={handleTaskEdit} />
+            }
+            <StandardButton text="Delete" color="red" onClick={handleTaskDelete} />
+          </div>
+        </div>
       </form>
     </li>
   )

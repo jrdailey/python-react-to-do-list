@@ -33,7 +33,7 @@ function App() {
         <hr />
       </header>
       <main className="flex justify-center">
-        <div className="w-2/3 min-w-[250px]">
+        <div className="w-3/4 min-w-[250px] lg:w-2/3">
           {taskErrorMessage && <ErrorDisplay errorMessage={taskErrorMessage} />}
           <FilterControls
             defaultSetting={defaultFilterSetting}

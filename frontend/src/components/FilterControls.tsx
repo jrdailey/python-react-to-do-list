@@ -24,16 +24,14 @@ const FilterControls = ({
 
   return (
     <>
-      <label className="text-lg">
-        <strong>Filter:</strong><br />
-        <input
-          className="w-full outline rounded-sm p-1 lg:w-2/3"
-          name="filter-by-text"
-          type="search"
-          onInput={(event: ChangeEvent<HTMLInputElement>) => setFilterText(event.target.value)}
-        />
-      </label>
-      <div className="pt-2">
+      <input
+        className="w-full outline rounded-sm text-lg p-1 lg:w-2/3"
+        name="filter-by-text"
+        type="search"
+        placeholder="Search"
+        onInput={(event: ChangeEvent<HTMLInputElement>) => setFilterText(event.target.value)}
+      />
+      <div className="flex flex-col pt-2 sm:flex-row">
         {
           options.map(option => (
             <label key={option.value} className="pr-2 cursor-pointer">
