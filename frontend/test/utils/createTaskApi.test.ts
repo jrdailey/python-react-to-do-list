@@ -10,12 +10,13 @@ describe('createTaskApi', () => {
   const taskApi = createTaskApi(apiHost, apiPort)
   const tasks: Task[] = [{
     id: 1,
-    description: 'task one',
+    title: 'task one',
+    createdAt: new Date(),
     completedAt: new Date(),
   }]
 
   mockFetch.mockResolvedValue({
-    json: async () => tasks,
+    json: async () => ({ tasks }),
   })
 
   describe('getTasks', () => {
@@ -30,7 +31,7 @@ describe('createTaskApi', () => {
   describe('createTask', () => {
     it('calls the expected endpoint and returns the mocked tasks', async () => {
       const newTask: UnpersistedTask = {
-        description: 'new task',
+        title: 'new task',
       }
       const returnedTasks = await taskApi.createTask(newTask)
 
@@ -50,7 +51,8 @@ describe('createTaskApi', () => {
     it('calls the expected endpoint and returns the mocked tasks', async () => {
       const taskToUpdate: Task = {
         id: 1,
-        description: 'task to update',
+        title: 'task to update',
+        createdAt: new Date(),
       }
       const returnedTasks = await taskApi.updateTask(taskToUpdate)
 
@@ -70,7 +72,8 @@ describe('createTaskApi', () => {
     it('calls the expected endpoint and returns the mocked tasks', async () => {
       const taskToDelete: Task = {
         id: 1,
-        description: 'delete me',
+        title: 'delete me',
+        createdAt: new Date(),
       }
       const returnedTasks = await taskApi.deleteTask(taskToDelete)
 

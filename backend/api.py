@@ -12,7 +12,7 @@ CORS(app)
 
 @app.route('/api/tasks', methods=['GET'])
 def get_tasks():
-    return jsonify(task_service.get_tasks()), 200
+    return jsonify({ 'tasks': task_service.get_tasks() }), 200
 
 @app.route('/api/tasks', methods=['POST'])
 def create_task():
@@ -20,27 +20,26 @@ def create_task():
 
     task_service.create_task(task_data)
 
-    return jsonify(task_service.get_tasks()), 201
+    return jsonify({ 'tasks': task_service.get_tasks() }), 201
 
 @app.route('/api/tasks/<task_id>', methods=['PUT'])
 def update_task(task_id):
-    updated_task_data = request.get_json()
-
-    updated = task_service.update_task(task_id, updated_task_data)
-
-    if not updated:
+    if not task_service.task_exists(task_id):
         return jsonify({'error': 'Task not found'}), 404
 
-    return jsonify(task_service.get_tasks()), 200
+    updated_task_data = request.get_json()
+    task_service.update_task(task_id, updated_task_data)
+
+    return jsonify({ 'tasks': task_service.get_tasks() }), 200
 
 @app.route('/api/tasks/<task_id>', methods=['DELETE'])
 def delete_task(task_id):
-    deleted = task_service.delete_task(task_id)
-
-    if not deleted:
+    if not task_service.task_exists(task_id):
         return jsonify({'error': 'Task not found'}), 404
 
-    return jsonify(task_service.get_tasks()), 200
+    task_service.delete_task(task_id)
+
+    return jsonify({ 'tasks': task_service.get_tasks() }), 200
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=API_PORT)

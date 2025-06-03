@@ -22,7 +22,7 @@ function App() {
     filteredTasks,
     filterOptions,
     setTaskFilter,
-  } = useTaskFilter(tasks)
+  } = useTaskFilter(tasks, isTaskEditable)
 
   const onFilterChange = useCallback((setting: FilterSetting) => setTaskFilter(setting), [setTaskFilter])
 

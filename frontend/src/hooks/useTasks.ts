@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Task, UnpersistedTask } from '../types'
 import { createTaskApi } from '../utils'
 
@@ -14,7 +14,7 @@ const sortTasks = (tasks: Task[]) => {
     if (!a.completedAt) return -1
     if (!b.completedAt) return 1
 
-    return new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime()
+    return b.completedAt.getTime() - a.completedAt.getTime()
   })
 }
 
@@ -25,7 +25,7 @@ export const useTasks = () => {
   const [isLoading, setIsLoading] = useState(false)
 
   const [editableTasks, setEditableTasks] = useState<Record<number, boolean>>({})
-  const isTaskEditable = (task: Task) => !!editableTasks[task.id]
+  const isTaskEditable = useCallback((task: Task) => !!editableTasks[task.id], [editableTasks])
   const setTaskEditability = (task: Task, isEditable: boolean) => {
     setEditableTasks((prev) => ({
       ...prev,
@@ -37,11 +37,7 @@ export const useTasks = () => {
     setErrorMessage('')
 
     try {
-      const newTask: UnpersistedTask = {
-        title: '',
-        description: '',
-        createdAt: new Date(),
-      }
+      const newTask: UnpersistedTask = { title: '' }
       const updatedTasks = await api.createTask(newTask)
 
       // Set new task as editable

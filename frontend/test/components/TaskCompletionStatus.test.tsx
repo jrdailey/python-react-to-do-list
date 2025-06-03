@@ -59,15 +59,6 @@ describe('TaskCompletionStatus', () => {
       expect(completedAtText).toBeDefined()
     })
 
-    it('renders the completedAt date when it is passed as JSON', () => {
-      const completedAt = new Date().toJSON()
-      render(<TaskCompletionStatus completedAt={completedAt} isEditable={isEditable} />)
-
-      const completedAtText = screen.getByText(`Completed at ${new Date(completedAt).toLocaleString()}`)
-
-      expect(completedAtText).toBeDefined()
-    })
-
     it('calls the onChange callback when the checkbox is clicked', () => {
       const onChange = vi.fn()
       render(<TaskCompletionStatus isEditable={isEditable} onChange={onChange} />)

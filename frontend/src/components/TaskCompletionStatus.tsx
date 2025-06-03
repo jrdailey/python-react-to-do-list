@@ -31,7 +31,7 @@ const TaskCompletionStatus = ({
         data-testid="task-completion-text"
         className="h-full font-light lg:h-auto"
       >
-        Completed at {new Date(completedAt).toLocaleString()}
+        Completed at {completedAt.toLocaleString()}
       </span>
     )
   }

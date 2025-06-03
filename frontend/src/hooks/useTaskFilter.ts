@@ -11,19 +11,19 @@ const completedFilter = {
   value: 'completed',
 }
 
-const incompletFilter = {
+const incompleteFilter = {
   label: 'Incomplete',
   value: 'incomplete',
 }
 
-const filterOptions: FilterOption[] = [allFilter, completedFilter, incompletFilter]
+const filterOptions: FilterOption[] = [allFilter, completedFilter, incompleteFilter]
 
 const defaultFilterSetting: FilterSetting = {
   filterText: '',
   selectedOption: allFilter,
 }
 
-export const useTaskFilter = (tasks: Task[]) => {
+export const useTaskFilter = (tasks: Task[], isEditable: (task: Task) => boolean) => {
   const [taskFilter, setTaskFilter] = useState(defaultFilterSetting)
 
   const filteredTasks = useMemo(() => {
@@ -34,18 +34,19 @@ export const useTaskFilter = (tasks: Task[]) => {
       const lowerCaseText = filterText.toLowerCase()
 
       return task.title.toLowerCase().includes(lowerCaseText) ||
-        task.description.toLowerCase().includes(lowerCaseText)
+        task.description?.toLowerCase().includes(lowerCaseText)
     }
     const meetsFilterOption = (task: Task) => {
       switch (taskFilter.selectedOption.value) {
         case completedFilter.value: return !!task.completedAt
-        case incompletFilter.value: return !task.completedAt
+        case incompleteFilter.value: return !task.completedAt
         default: return true
       }
     }
 
-    return tasks.filter(task => includesFilterText(task) && meetsFilterOption(task))
-  }, [taskFilter, tasks])
+    // Any task that is being edited should remain in the filtered list, otherwise apply filter
+    return tasks.filter(task => isEditable(task) || (includesFilterText(task) && meetsFilterOption(task)))
+  }, [isEditable, taskFilter, tasks])
 
   return {
     defaultFilterSetting,

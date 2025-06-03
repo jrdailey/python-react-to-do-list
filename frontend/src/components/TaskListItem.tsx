@@ -85,7 +85,7 @@ const TaskListItem = ({
               />
             </div>
           }
-          <span className="font-light">Created at {new Date(localTask.createdAt).toLocaleString()}</span>
+          <span className="font-light">Created at {localTask.createdAt.toLocaleString()}</span>
         </div>
         <div className="flex flex-col justify-around flex-wrap gap-1 w-full md:w-1/2">
           <hr className="my-2 w-full md:hidden" />

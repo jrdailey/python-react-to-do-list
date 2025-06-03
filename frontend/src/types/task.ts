@@ -3,7 +3,7 @@ export interface Task {
   completedAt?: Date,
   createdAt: Date,
   title: string,
-  description: string,
+  description?: string,
 }
 
-export type UnpersistedTask = Omit<Task, 'id'>
+export type UnpersistedTask = Omit<Task, 'id' | 'createdAt'>

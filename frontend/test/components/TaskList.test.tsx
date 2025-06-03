@@ -6,20 +6,20 @@ describe('TaskList', () => {
   const tasks: Task[] = [
     {
       id: 1,
-      description: 'Task one',
+      title: 'Task one',
+      createdAt: new Date(),
     },
     {
       id: 2,
-      description: 'Task two',
+      title: 'Task two',
+      createdAt: new Date(),
     },
   ]
   const isTaskEditable = vi.fn()
   const onTaskAdd = vi.fn()
-  const onTaskCompletion = vi.fn()
   const onTaskDelete = vi.fn()
   const onTaskEdit = vi.fn()
   const onTaskSave = vi.fn()
-  const onTaskUpdate = vi.fn()
 
   beforeEach(() => {
     render(
@@ -27,18 +27,16 @@ describe('TaskList', () => {
         tasks={tasks}
         isTaskEditable={isTaskEditable}
         onTaskAdd={onTaskAdd}
-        onTaskCompletion={onTaskCompletion}
         onTaskDelete={onTaskDelete}
         onTaskEdit={onTaskEdit}
         onTaskSave={onTaskSave}
-        onTaskUpdate={onTaskUpdate}
       />,
     )
   })
 
   it('renders each task', () => {
-    const taskOne = screen.getByText(tasks[0].description)
-    const taskTwo = screen.getByText(tasks[1].description)
+    const taskOne = screen.getByText(tasks[0].title)
+    const taskTwo = screen.getByText(tasks[1].title)
 
     expect(taskOne).toBeDefined()
     expect(taskTwo).toBeDefined()

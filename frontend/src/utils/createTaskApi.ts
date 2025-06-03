@@ -1,13 +1,24 @@
 import { Task, UnpersistedTask } from '../types'
 
+const parseResponse = async (response: Response): Promise<Task[]> => {
+  const tasks = (await response.json()).tasks
+
+  const parsedTasks = tasks.map((task: Task) => ({
+    ...task,
+    createdAt: new Date(task.createdAt),
+    completedAt: task.completedAt ? new Date(task.completedAt) : undefined,
+  })) as Task[]
+
+  return Promise.resolve(parsedTasks)
+}
+
 export const createTaskApi = (apiHost: string, apiPort: string) => {
   const apiUrl = `${apiHost}:${apiPort}/api`
 
   const getTasks = async () => {
     const response = await fetch(`${apiUrl}/tasks`)
-    const tasks = await response.json() as Task[]
 
-    return tasks
+    return parseResponse(response)
   }
 
   const createTask = async (task: UnpersistedTask) => {
@@ -22,9 +33,8 @@ export const createTaskApi = (apiHost: string, apiPort: string) => {
         body: JSON.stringify(task),
       },
     )
-    const tasks = await response.json() as Task[]
 
-    return tasks
+    return parseResponse(response)
   }
 
   const updateTask = async (task: Task) => {
@@ -39,16 +49,14 @@ export const createTaskApi = (apiHost: string, apiPort: string) => {
         body: JSON.stringify(task),
       },
     )
-    const tasks = await response.json() as Task[]
 
-    return tasks
+    return parseResponse(response)
   }
 
   const deleteTask = async (task: Task) => {
     const response = await fetch(`${apiUrl}/tasks/${task.id}`, { method: 'DELETE' })
-    const tasks = await response.json() as Task[]
 
-    return tasks
+    return parseResponse(response)
   }
 
   return {
