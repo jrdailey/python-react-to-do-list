@@ -88,7 +88,9 @@ Prerequisites: Node v18+
 2. `npm install`
 
 ### Install Backend
-Prerequisites: Python3, pip
+Prerequisites: Python3, pip, redis
+
+If you don't have redis running on your machine, run `brew install redis`.
 
 The `start.sh` script will create a virtual environment and automatically install necessary dependencies.
 
